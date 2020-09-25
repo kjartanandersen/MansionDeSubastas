@@ -1,4 +1,6 @@
+
 const Art = require('../data/db').Art;
+const Artist = require('../data/db').Artist;
 
 const artService = () => {
 
@@ -30,10 +32,16 @@ const artService = () => {
 
     const createArt = async (art, cb, errorCb) => {
         // Your implementation goes here
-        await Art.create(art, function (err, result) {
-            if (err) { errorCb(err); }
-            else { cb(result); }
-        });
+
+        await Artist.findById(art.artistId, function (err, artist) {
+            if (artist === null) { cb(-1); }
+            else {
+                Art.create(art, function (err, result) {
+                    if (err) { errorCb(err); }
+                    else { cb(result); }
+                })
+            }
+        })
     };
 
     return {

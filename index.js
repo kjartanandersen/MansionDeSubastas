@@ -7,6 +7,7 @@ const port = 3000;
 const artService = require('./services/artService');
 const artistService = require('./services/artistService');
 const customerService = require('./services/customerService');
+const auctionService = require('./services/auctionService');
 
 app.use(bodyParser.json());
 
@@ -101,7 +102,21 @@ app.post('/api/customers', async function(req, res) {
 
 // http://localhost:3000/api/customers/1/auction-bids [GET]
 app.get('/api/customers/:id/auction-bids', async function(req, res) {
+    // const customerId = req.params.id;
 
+    // await customerService.getCustomerAuctionBids(customerId, async function (auctionBids) {
+    //     if (auctionBids === -1) { return res.status(404).send("No auctions for this customer!"); }
+    //     return res.json(auctionBids);
+    // }, async function (err) {
+    //     return res.status(500).send(err);
+    // })
+
+    const results = await customerService.getCustomerAuctionBids();
+    return res.json(results);
+
+    // const auctionBids = await customerService.getCustomerAuctionBids(customerId);
+    // if (auctionBids == null) { return res.status(404).send("Auction bids not found"); }
+    // return res.json(auctionBids);
 });
 
 /**
@@ -110,12 +125,16 @@ app.get('/api/customers/:id/auction-bids', async function(req, res) {
 
 // http://localhost:3000/api/auctions [GET]
 app.get('/api/auctions', async function(req, res) {
-
+    const results = await auctionService.getAllAuctions();
+    return res.json(results);
 });
 
 // http://localhost:3000/api/auctions/1 [GET]
 app.get('/api/auctions/:id', async function(req, res) {
-
+    const customerId = req.params.id;
+    const result = await auctionService.getAuctionById(customerId);
+    if (result == null) {return res.status(404).send("Artist not found!")}
+    return res.json(result);
 });
 
 // http://localhost:3000/api/auctions/1/winner [GET]

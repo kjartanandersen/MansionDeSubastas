@@ -1,4 +1,7 @@
-const { Customer } = require("../data/db");
+const { ObjectID } = require("mongoose/lib/schema/index");
+const { Customer, AuctionBid } = require("../data/db");
+const mongoose = require('mongoose');
+const ObjectId = require("mongoose/lib/schema/objectid");
 
 const customerService = () => {
     const globalTryCatch = async cb => {
@@ -27,8 +30,18 @@ const customerService = () => {
         }
     };
 
-    const getCustomerAuctionBids = async (customerId, cb, errorCb) => {
+    const getCustomerAuctionBids = async ( cb, errorCb) => {
         // Your implementation goes here
+        // await AuctionBid.find({},  async function (err, auctionBids) {
+        //     if ( err ) { errorCb(err); }
+        //     else if (auctionBids === undefined || auctionBids.length == 0) { cb(-1); }
+        //     else { cb(auctionBids); }
+        // });
+
+        return await globalTryCatch(async () => {
+            const customers = await AuctionBid.find({});
+            return customers;
+        })
     };
 
 	const createCustomer = async (customer, cb, errorCb) => {

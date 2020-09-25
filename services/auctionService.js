@@ -1,10 +1,30 @@
+const { Auction } = require("../data/db");
+
 const auctionService = () => {
-    const getAllAuctions = (cb, errorCb) => {
+    const globalTryCatch = async cb => {
+        try {
+            return await cb();
+        } catch (err) {
+            return err;
+        }
+    }
+
+    const getAllAuctions = async (cb, errorCb) => {
         // Your implementation goes here
+        return await globalTryCatch(async () => {
+            const auctions = await Auction.find({});
+            return auctions;
+        })
     };
 
-    const getAuctionById = (id, cb, errorCb) => {
+    const getAuctionById = async (id, cb, errorCb) => {
         // Your implementation goes here
+        try {
+            const auction = await Auction.findById(id);
+            return auction;
+        } catch (err) {
+            return err;
+        }
     };
 
     const getAuctionWinner = (auctionId, cb, errorCb) => {

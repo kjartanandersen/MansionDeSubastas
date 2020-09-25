@@ -5,7 +5,7 @@ const auctionSchema = require('../schemas/auction');
 const auctionBidSchema = require('../schemas/auctionBid');
 const customerSchema = require('../schemas/customer');
 
-const connection = mongoose.createConnection('mongodb+srv://dbAdmin:Pass.123@kjartancluster.mdfwu.mongodb.net/mansion_de_subastas', {
+const connection = mongoose.createConnection('ConnectionString', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
